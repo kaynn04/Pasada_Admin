@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="index.html"><span class="las la-igloo"></span>
+                    <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="customer.html"><span class="las la-users"></span>
+                    <span>Passengers</span></a>
+                </li>
+                <li>
+                    <a href="employee.html"><span class="las la-clipboard-list"></span>
+                    <span>Drivers</span></a>
+                </li>
+                <li>
+                    <a href="routes.html"><span class="las la-road"></span>
+                    <span>Routes</span></a>
+                </li>
+                <li>
+                    <a href="history.html"><span class="las la-receipt"></span>
+                    <span>History</span></a>
+                </li>
+                <li>
+                    <a href="bookings.html" class="active"><span class="las la-receipt"></span>
+                    <span>Bookings</span></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Logout Menu -->
+        <div class="sidebar-logout">
+            <ul>
+                <li>
+                    <a href="#" onclick="showLogoutModal(event)">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-actions">
+                <button onclick="confirmLogout()" id="buttonYes">Yes</button>
+                <button onclick="closeModal()" id="buttonNo">No</button>
+            </div>
+        </div>
+     </div>
+
+    <div class="main-content">
+        <header>
+            <!-- Burger Icon -->
+            <div class="burger-icon" onclick="toggleSidebar()">
+                <span class="la la-bars"></span>
+            </div>
+
+            <div class="logo-wrapper">
+                <h2>PASADA</h2>
+            </div> 
+
+            <div class="user-wrapper">
+                <img src="images/MyPicture.jpg" width="40px" height="40px" alt="">
+                <div class="user-info">
+                    <h4 id="user-display-name"></h4>
+                    <p>admin</p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="history-form">
+                <h2>Booking Details</h2>
+                <form id="filterForm">
+                    <input type="text" id="filterInput" placeholder="Search by driver name, customer name, service, origin, destination" oninput="filterBookingData()">
+                </form>
+            </div>
+
+            <div class="history-card">
+                <span>Total Booking: <span class="accepted-booking-count">0</span></span>
+            </div>
+
+            <div class="history-list">
+                <h2>Booking Transactions</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Driver Name</th>
+                            <th>customer Name</th>
+                            <th>service</th>
+                            <th>origin</th>
+                            <th>destination</th>
+                            <th>Actions</th> <!-- Changed "Status" to "Actions" -->
+                        </tr>
+                    </thead>
+                    <tbody id="bookingList">
+                        <!-- More rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+   
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
+    <script src="script.js"></script>      
+</body>
+</html>

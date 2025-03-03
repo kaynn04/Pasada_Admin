@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="index.html"><span class="las la-igloo"></span>
+                    <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="customer.html"><span class="las la-users"></span>
+                    <span>Passengers</span></a>
+                </li>
+                <li>
+                    <a href="employee.html" class="active"><span class="las la-clipboard-list"></span>
+                    <span>Drivers</span></a>
+                </li>
+                <li>
+                    <a href="routes.html"><span class="las la-road"></span>
+                    <span>Routes</span></a>
+                </li>
+                <li>
+                    <a href="history.html"><span class="las la-receipt"></span>
+                    <span>History</span></a>
+                </li>
+                <li>
+                    <a href="bookings.html"><span class="las la-receipt"></span>
+                    <span>Bookings</span></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Logout Menu -->
+        <div class="sidebar-logout">
+            <ul>
+                <li>
+                    <a href="#" onclick="showLogoutModal(event)">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="recaptcha-container"></div>
+
+    <!-- Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-actions">
+                <button onclick="confirmLogout()" id="buttonYes">Yes</button>
+                <button onclick="closeModal()" id="buttonNo">No</button>
+            </div>
+        </div>
+     </div>
+
+    <!-- Modal -->
+        <!-- Modal -->
+    <div id="add-driver-modal" class="modal">
+        <div class="modal-content">
+            <h2>Driver Information</h2>
+            <div class="signup-wrapper">
+                <div class="signup-card">
+                    <form id="addDriver-form" action="#" method="POST" enctype="multipart/form-data">
+                        <div class="input-wrapper">
+                            <label for="lname">Last Name</label>
+                            <input type="text" id="lname" name="lname" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="fname">First Name</label>
+                            <input type="text" id="fname" name="fname" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="contactNum">Contact Number</label>
+                            <input type="tel" id="contactNum" name="contactNum" placeholder="Enter Contact Number" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="bodyNum">Tricycle Body Number</label>
+                            <input type="text" id="bodyNum" name="bodyNum" placeholder="Enter Body Number" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="plateNum">Tricycle Plate Number</label>
+                            <input type="text" id="plateNum" name="plateNum" placeholder="Enter Plate Number" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="driverImage">Driver's License</label>
+                            <input type="file" id="driverImage" name="driverImage" accept="image/*" required>
+                        </div>
+
+                        <!-- Additional Required Documents -->
+                        <div class="input-wrapper">
+                            <label for="corFile">Certificate of Registration</label>
+                            <input type="file" id="corFile" name="corFile" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="referenceLetter">Letter of Reference</label>
+                            <input type="file" id="referenceLetter" name="referenceLetter" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="barangayClearance">Barangay Clearance</label>
+                            <input type="file" id="barangayClearance" name="barangayClearance" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="insurance">Passenger Insurance Coverage</label>
+                            <input type="file" id="insurance" name="insurance" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="idPicture">2x2 ID Picture</label>
+                            <input type="file" id="idPicture" name="idPicture" accept="image/*" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="tricyclePicture">Tricycle Picture</label>
+                            <input type="file" id="tricyclePicture" name="tricyclePicture" accept="image/*" required>
+                        </div>
+
+                        <p id="loadingMessage" style="display: none; color: blue;">Adding driver, please wait...</p>
+                        <button type="submit" id="buttonAdd" class="addDriver-btn">Add Driver</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeAddDriverModal()" id="buttonCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <p>Driver successfully added!</p>
+            <button onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Edit Driver Modal -->
+<!-- Edit Driver Modal -->
+<div id="edit-driver-modal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Driver Information</h2>
+        <div class="signup-wrapper">
+            <div class="signup-card">
+                <form id="editDriver-form" action="#" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="edit-key" name="key">
+                    
+                    <div class="input-wrapper">
+                        <label for="edit-lname">Last Name</label>
+                        <input type="text" id="edit-lname" name="lname" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-fname">First Name</label>
+                        <input type="text" id="edit-fname" name="fname" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-contactNum">Contact Number</label>
+                        <input type="tel" id="edit-contactNum" name="contactNum" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-email">Email</label>
+                        <input type="email" id="edit-email" name="email" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-bodyNum">Tricycle Body Number</label>
+                        <input type="text" id="edit-bodyNum" name="bodyNum" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-plateNum">Tricycle Plate Number</label>
+                        <input type="text" id="edit-plateNum" name="plateNum" required>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-driverImage">Driver Image</label>
+                        <input type="file" id="edit-driverImage" name="driverImage" accept="image/*">
+                        <p id="edit-driverImage-preview"></p>
+                    </div>
+                    
+                    <!-- Additional Required Documents -->
+                    <div class="input-wrapper">
+                        <label for="edit-corFile">Certificate of Registration</label>
+                        <input type="file" id="edit-corFile" name="corFile" accept="image/*,.pdf">
+                        <p id="edit-corFile-preview"></p>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-referenceLetter">Letter of Reference</label>
+                        <input type="file" id="edit-referenceLetter" name="referenceLetter" accept="image/*,.pdf">
+                        <p id="edit-referenceLetter-preview"></p>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-barangayClearance">Barangay Clearance</label>
+                        <input type="file" id="edit-barangayClearance" name="barangayClearance" accept="image/*,.pdf">
+                        <p id="edit-barangayClearance-preview"></p>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-insurance">Passenger Insurance Coverage</label>
+                        <input type="file" id="edit-insurance" name="insurance" accept="image/*,.pdf">
+                        <p id="edit-insurance-preview"></p>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-idPicture">2x2 ID Picture</label>
+                        <input type="file" id="edit-idPicture" name="idPicture" accept="image/*">
+                        <p id="edit-idPicture-preview"></p>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="edit-tricyclePicture">Tricycle Picture</label>
+                        <input type="file" id="edit-tricyclePicture" name="tricyclePicture" accept="image/*">
+                        <p id="edit-tricyclePicture-preview"></p>
+                    </div>
+                    
+                    <p id="edit-loadingMessage" style="display: none; color: blue;">Updating driver, please wait...</p>
+                    <button type="submit" id="buttonEdit" class="editDriver-btn">Update Driver</button>
+                </form>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button onclick="closeEditEmployeeModal()" id="buttonCancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+    <div class="main-content">
+        <header>
+
+            <!-- Burger Icon -->
+            <div class="burger-icon" onclick="toggleSidebar()">
+                <span class="la la-bars"></span>
+            </div>
+
+            <div class="logo-wrapper">
+                <h2>PASADA</h2>
+            </div>
+
+            <div class="user-wrapper">
+                <img src="images/MyPicture.jpg" width="40px" height="40px" alt="">
+                <div class="user-info">
+                    <h4 id="user-display-name"></h4>
+                    <p>admin</p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="employee-form">
+                <h2>Search Driver Details</h2>
+                <form id="filterForm">
+                    <input type="text" id="filterInput" placeholder="Search by name, email, or phone number" oninput="filterEmployeeData()">
+                </form>
+            </div>
+
+            <div class="employee-header">
+                <span>Total Drivers: <span class="employee-count">0</span></span>
+                <div class="button-group">
+                    <button class="add-employee" id="add-employee" onclick="showAddDriverModal(event)">Add Driver</button>
+                    <button class="add-employee" id="add-employee" onclick="showArchivedDriverAccounts()">Archived Accounts</button>
+                </div>
+            </div>
+
+            <div class="employee-list">
+                <h2>Driver List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DriverID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Body Number</th>
+                            <th>Plate Number</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="driverList">
+                        <!-- Dynamic rows will appear here -->
+                    </tbody>
+                </table>
+            </div>            
+        </main>
+    </div>
+
+<!-- firebase -->
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="script.js"></script>   
+
+
+
+</body>
+</html>

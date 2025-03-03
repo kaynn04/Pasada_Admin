@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="index.html"><span class="las la-igloo"></span>
+                    <span>Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="customer.html"><span class="las la-users"></span>
+                    <span>Passengers</span></a>
+                </li>
+                <li>
+                    <a href="employee.html" class="active"><span class="las la-clipboard-list"></span>
+                    <span>Drivers</span></a>
+                </li>
+                <li>
+                    <a href="routes.html"><span class="las la-road"></span>
+                    <span>Routes</span></a>
+                </li>
+                <li>
+                    <a href="history.html"><span class="las la-receipt"></span>
+                    <span>History</span></a>
+                </li>
+                <li>
+                    <a href="bookings.html"><span class="las la-receipt"></span>
+                    <span>Bookings</span></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Logout Menu -->
+        <div class="sidebar-logout">
+            <ul>
+                <li>
+                    <a href="#" onclick="showLogoutModal(event)">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="recaptcha-container"></div>
+
+    <!-- Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-actions">
+                <button onclick="confirmLogout()" id="buttonYes">Yes</button>
+                <button onclick="closeModal()" id="buttonNo">No</button>
+            </div>
+        </div>
+     </div>
+
+    <!-- Modal -->
+    <div id="add-driver-modal" class="modal">
+        <div class="modal-content">
+            <h2>Driver Information</h2>
+            <div class="signup-wrapper">
+                <div class="signup-card">
+                    <form id="addDriver-form" action="#" method="POST">
+                        <div class="input-wrapper">
+                            <label for="lname">Last Name</label>
+                            <input type="text" id="lname" name="lname" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="fname">First Name</label>
+                            <input type="text" id="fname" name="fname" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="contactNum">Contact Number</label>
+                            <input type="tel" id="contactNum" name="contactNum" placeholder="Enter Contact Number" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="bodyNum">Tricycle Body Number</label>
+                            <input type="text" id="bodyNum" name="bodyNum" placeholder="Enter Body Number" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="plateNum">Tricycle Plate Number</label>
+                            <input type="text" id="plateNum" name="plateNum" placeholder="Enter Plate Number" required>
+                        </div>
+                        
+                        <button type="submit" id="buttonAdd" class="addDriver-btn">Add Driver</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeAddDriverModal()" id="buttonCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+
+            <!-- Burger Icon -->
+            <div class="burger-icon" onclick="toggleSidebar()">
+                <span class="la la-bars"></span>
+            </div>
+
+            <div class="logo-wrapper">
+                <h2>PASADA</h2>
+            </div>
+
+            <div class="user-wrapper">
+                <img src="images/MyPicture.jpg" width="40px" height="40px" alt="">
+                <div class="user-info">
+                    <h4 id="user-display-name"></h4>
+                    <p>admin</p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="employee-form">
+                <h2>Archived Driver Details</h2>
+                <form id="filterForm">
+                    <input type="text" id="archivedFilterInput" oninput="filterArchivedEmployeeData()" placeholder="Search Archived Employees...">
+
+                </form>
+            </div>
+
+            <div class="employee-header">
+                <span>Total Drivers: <span class="archived-employee-count">0</span></span>
+                <div class="button-group">
+                    <button class="add-employee" id="add-employee" onclick="showDriverActiveAccounts()">Active Accounts</button>
+                </div>
+            </div>
+
+            <div class="employee-list">
+                <h2>Archived Driver List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DriverID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Body Number</th>
+                            <th>Plate Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archivedList">
+                        <!-- Dynamic rows will appear here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+
+<!-- firebase -->
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="script.js"></script>   
+
+
+
+</body>
+</html>
